@@ -394,7 +394,7 @@
               <span v-for="value in walletObj">
                 <a-button :class="value.address == walletAddress ? 'btnwallet1' : 'btnwallet'" type="text"
                   @click="changeWallet(value)">
-                  <span>Address</span><span>:&nbsp</span><span>{{ value.address }}</span>
+                  <span>smart contract account</span><span>:&nbsp</span><span>{{ value.address }}</span>
                 </a-button>
               </span>
             </span>
