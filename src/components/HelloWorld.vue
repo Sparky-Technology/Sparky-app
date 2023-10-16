@@ -758,7 +758,7 @@ export default {
       // wethAddress: "0xfFf9976782d46CC05630D1f6eBAb18b2324d6B14",
       // uniAddress: "0x1f9840a85d5aF5bf1D1762F925BDADdC4201F984",
       fee: 3000,
-      walletAddress: "0xF3FF08EbF08AAa9705EBC67916548f970E2d5baB",//default null
+      walletAddress: null,//default null
       routerAddress: "0x3bFA4769FB09eefC5a80d6E87c3B9C650f7Ae48E",
       // amountOutMinimum: 0,
       chainId: "11155111",
