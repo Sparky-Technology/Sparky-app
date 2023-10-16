@@ -4,8 +4,21 @@
             userMessage="msg" 
             @onComplete="onComplete"
         >
+        "color"
+"ball"
+"lines"
+"thick"
+"circle"
+"cobweb"
+"polygon"
+"square"
+"tadpole"
+"fountain"
+"random"
+"custom"
         </vue-metamask> -->
-    <div class="header"><img src="../assets/robot.svg" style="height: 45px;width: 45px; padding-right: 10px;">
+    <particles-bg type="circle" :bg="true" />
+    <div class="header"><img src="../assets/robot.svg" style="height: 100px;width: 100px; padding-right: 10px;">
       Sparky
       <vue-metamask ref="metamask" @onComplete="onComplete"></vue-metamask>
       <a-button type="primary" danger style="position: absolute; right: 10px; top: 10px;" @click="connect">
@@ -31,38 +44,77 @@
           <div id="contentLeft1" v-show="numberl == 0">
 
             <span>
-              <div class="components-input-demo-presuffix" style="width: 60%;margin-left: 20%; padding-top: 10%;">
-                <!-- <a-input oninput="value=value.replace(/[^0-9.]/g,'')" v-model:value="ethAmount" @change="calculateRateE()"
+              <div v-show="changePositionFlag == 0">
+                <div class="components-input-demo-presuffix" style="width: 60%;margin-left: 20%; padding-top: 10%;">
+                  <!-- <a-input oninput="value=value.replace(/[^0-9.]/g,'')" v-model:value="ethAmount" @change="calculateRateE()"
                   placeholder="0" suffix="ETH" style="height: 60px;" /> -->
-                <span>
-                  <label>
-                    <a-input :size="size" oninput="value=value.replace(/[^0-9.]/g,'')" v-model:value="ethAmount"
-                      @change="calculateRateE()" placeholder="0" style="width: 70%; height: 40px;" />
-                  </label>
-                  <label>
-                    <a-select :size="size" default-value="eth" style="width: 30%;" @select="handleChangeSrc">
-                      <a-select-option style="text-align: center;" :value="item.value" :disabled="item.disabled"
-                        v-for="item in optionSrc" :key="item.value">{{ item.label }}</a-select-option>
-                    </a-select>
-                  </label>
-                </span>
-              </div>
-              <div style="line-height: 20px;"><img src="../assets/swap.svg" style="height: 20px; width: 20px;"></div>
-              <div class="components-input-demo-presuffix" style="width: 60%;margin-left: 20%;">
-                <!-- <a-input oninput="value=value.replace(/[^0-9.]/g,'')" v-model:value="uniAmount"
+                  <span>
+                    <label>
+                      <a-input :size="size" oninput="value=value.replace(/[^0-9.]/g,'')" v-model:value="ethAmount"
+                        @change="calculateRateE()" placeholder="0" style="width: 70%; height: 40px;" />
+                    </label>
+                    <label>
+                      <a-select :size="size" default-value="eth" style="width: 30%;" @select="handleChangeSrc">
+                        <a-select-option style="text-align: center;" :value="item.value" :disabled="item.disabled"
+                          v-for="item in optionSrc" :key="item.value">{{ item.label }}</a-select-option>
+                      </a-select>
+                    </label>
+                  </span>
+                </div>
+                <div style="line-height: 20px;"><img src="../assets/swap.svg" style="height: 20px; width: 20px;"
+                    @click="changePosition()"></div>
+                <div class="components-input-demo-presuffix" style="width: 60%;margin-left: 20%;">
+                  <!-- <a-input oninput="value=value.replace(/[^0-9.]/g,'')" v-model:value="uniAmount"
                   @change="calculateRateU()" placeholder="0" suffix="UNI" style="height: 60px;"/> -->
-                <span>
-                  <label>
-                    <a-input :size="size" oninput="value=value.replace(/[^0-9.]/g,'')" v-model:value="erc20Amount"
-                      @change="calculateRateU()" placeholder="0" style="width: 70%; height: 40px; " />
-                  </label>
-                  <label>
-                    <a-select :size="size" default-value="uni" style="width: 30%;" @select="handleChangeDes">
-                      <a-select-option style="text-align: center;" :value="item.value" :disabled="item.disabled"
-                        v-for="item in optionDes" :key="item.value">{{ item.label }}</a-select-option>
-                    </a-select>
-                  </label>
-                </span>
+                  <span>
+                    <label>
+                      <a-input :size="size" oninput="value=value.replace(/[^0-9.]/g,'')" v-model:value="erc20Amount"
+                        @change="calculateRateU()" placeholder="0" style="width: 70%; height: 40px; " />
+                    </label>
+                    <label>
+                      <a-select :size="size" default-value="uni" style="width: 30%;" @select="handleChangeDes">
+                        <a-select-option style="text-align: center;" :value="item.value" :disabled="item.disabled"
+                          v-for="item in optionDes" :key="item.value">{{ item.label }}</a-select-option>
+                      </a-select>
+                    </label>
+                  </span>
+                </div>
+              </div>
+              <div v-show="changePositionFlag == 1">
+                <div class="components-input-demo-presuffix" style="width: 60%;margin-left: 20%; padding-top: 10%;">
+                  <!-- <a-input oninput="value=value.replace(/[^0-9.]/g,'')" v-model:value="uniAmount"
+                  @change="calculateRateU()" placeholder="0" suffix="UNI" style="height: 60px;"/> -->
+                  <span>
+                    <label>
+                      <a-input :size="size" oninput="value=value.replace(/[^0-9.]/g,'')" v-model:value="erc20Amount"
+                        @change="calculateRateU()" placeholder="0" style="width: 70%; height: 40px; " />
+                    </label>
+                    <label>
+                      <a-select :size="size" default-value="uni" style="width: 30%;" @select="handleChangeDes">
+                        <a-select-option style="text-align: center;" :value="item.value" :disabled="item.disabled"
+                          v-for="item in optionDes" :key="item.value">{{ item.label }}</a-select-option>
+                      </a-select>
+                    </label>
+                  </span>
+                </div>
+                <div style="line-height: 20px;"><img src="../assets/swap.svg" style="height: 20px; width: 20px;"
+                    @click="changePosition()"></div>
+                <div class="components-input-demo-presuffix" style="width: 60%;margin-left: 20%;">
+                  <!-- <a-input oninput="value=value.replace(/[^0-9.]/g,'')" v-model:value="ethAmount" @change="calculateRateE()"
+                  placeholder="0" suffix="ETH" style="height: 60px;" /> -->
+                  <span>
+                    <label>
+                      <a-input :size="size" oninput="value=value.replace(/[^0-9.]/g,'')" v-model:value="ethAmount"
+                        @change="calculateRateE()" placeholder="0" style="width: 70%; height: 40px;" />
+                    </label>
+                    <label>
+                      <a-select :size="size" default-value="eth" style="width: 30%;" @select="handleChangeSrc">
+                        <a-select-option style="text-align: center;" :value="item.value" :disabled="item.disabled"
+                          v-for="item in optionSrc" :key="item.value">{{ item.label }}</a-select-option>
+                      </a-select>
+                    </label>
+                  </span>
+                </div>
               </div>
               <div style="line-height: 50px;" ref="exchangeRate">rate:?</div>
               <a-button type="primary" :loading="iconLoading" @click="submitSwap()"
@@ -77,38 +129,77 @@
 
           <div id="contentLeft2" v-show="numberl == 1">
             <span>
-              <div class="components-input-demo-presuffix" style="width: 60%;margin-left: 20%; padding-top: 10%;">
-                <!-- <a-input oninput="value=value.replace(/[^0-9.]/g,'')" v-model:value="ethAmount" @change="calculateRateE()"
+              <div v-show="changeLimitedPositionFlag == 0">
+                <div class="components-input-demo-presuffix" style="width: 60%;margin-left: 20%; padding-top: 10%;">
+                  <!-- <a-input oninput="value=value.replace(/[^0-9.]/g,'')" v-model:value="ethAmount" @change="calculateRateE()"
                   placeholder="0" suffix="ETH" style="height: 60px;" /> -->
-                <span>
-                  <label>
-                    <a-input :size="size" oninput="value=value.replace(/[^0-9.]/g,'')" v-model:value="ethLimitedAmount"
-                      placeholder="0" style="width: 70%; height: 40px;" />
-                  </label>
-                  <label>
-                    <a-select :size="size" default-value="eth" style="width: 30%;" @select="handleChangeLimitedSrc">
-                      <a-select-option style="text-align: center;" :value="item.value" :disabled="item.disabled"
-                        v-for="item in optionSrc" :key="item.value">{{ item.label }}</a-select-option>
-                    </a-select>
-                  </label>
-                </span>
-              </div>
-              <div style="line-height: 20px;"><img src="../assets/swap.svg" style="height: 20px; width: 20px;"></div>
-              <div class="components-input-demo-presuffix" style="width: 60%;margin-left: 20%;">
-                <!-- <a-input oninput="value=value.replace(/[^0-9.]/g,'')" v-model:value="uniAmount"
+                  <span>
+                    <label>
+                      <a-input :size="size" oninput="value=value.replace(/[^0-9.]/g,'')" v-model:value="ethLimitedAmount"
+                        placeholder="0" style="width: 70%; height: 40px;" />
+                    </label>
+                    <label>
+                      <a-select :size="size" default-value="eth" style="width: 30%;" @select="handleChangeLimitedSrc">
+                        <a-select-option style="text-align: center;" :value="item.value" :disabled="item.disabled"
+                          v-for="item in optionSrc" :key="item.value">{{ item.label }}</a-select-option>
+                      </a-select>
+                    </label>
+                  </span>
+                </div>
+                <div style="line-height: 20px;"><img src="../assets/swap.svg" style="height: 20px; width: 20px; "
+                    @click="changeLimitedPosition()"></div>
+                <div class="components-input-demo-presuffix" style="width: 60%;margin-left: 20%;">
+                  <!-- <a-input oninput="value=value.replace(/[^0-9.]/g,'')" v-model:value="uniAmount"
                   @change="calculateRateU()" placeholder="0" suffix="UNI" style="height: 60px;"/> -->
-                <span>
-                  <label>
-                    <a-input :size="size" oninput="value=value.replace(/[^0-9.]/g,'')" v-model:value="erc20LimitedAmount"
-                      placeholder="0" style="width: 70%; height: 40px; " />
-                  </label>
-                  <label>
-                    <a-select :size="size" default-value="uni" style="width: 30%;" @select="handleChangelimitedDes">
-                      <a-select-option style="text-align: center;" :value="item.value" :disabled="item.disabled"
-                        v-for="item in optionDes" :key="item.value">{{ item.label }}</a-select-option>
-                    </a-select>
-                  </label>
-                </span>
+                  <span>
+                    <label>
+                      <a-input :size="size" oninput="value=value.replace(/[^0-9.]/g,'')"
+                        v-model:value="erc20LimitedAmount" placeholder="0" style="width: 70%; height: 40px; " />
+                    </label>
+                    <label>
+                      <a-select :size="size" default-value="uni" style="width: 30%;" @select="handleChangelimitedDes">
+                        <a-select-option style="text-align: center;" :value="item.value" :disabled="item.disabled"
+                          v-for="item in optionDes" :key="item.value">{{ item.label }}</a-select-option>
+                      </a-select>
+                    </label>
+                  </span>
+                </div>
+              </div>
+              <div v-show="changeLimitedPositionFlag == 1">
+                <div class="components-input-demo-presuffix" style="width: 60%;margin-left: 20%; padding-top: 10%;">
+                  <!-- <a-input oninput="value=value.replace(/[^0-9.]/g,'')" v-model:value="uniAmount"
+                  @change="calculateRateU()" placeholder="0" suffix="UNI" style="height: 60px;"/> -->
+                  <span>
+                    <label>
+                      <a-input :size="size" oninput="value=value.replace(/[^0-9.]/g,'')"
+                        v-model:value="erc20LimitedAmount" placeholder="0" style="width: 70%; height: 40px; " />
+                    </label>
+                    <label>
+                      <a-select :size="size" default-value="uni" style="width: 30%;" @select="handleChangelimitedDes">
+                        <a-select-option style="text-align: center;" :value="item.value" :disabled="item.disabled"
+                          v-for="item in optionDes" :key="item.value">{{ item.label }}</a-select-option>
+                      </a-select>
+                    </label>
+                  </span>
+                </div>
+                <div style="line-height: 20px;"><img src="../assets/swap.svg" style="height: 20px; width: 20px;"
+                    @click="changeLimitedPosition()"></div>
+                <div class="components-input-demo-presuffix" style="width: 60%;margin-left: 20%;">
+                  <!-- <a-input oninput="value=value.replace(/[^0-9.]/g,'')" v-model:value="ethAmount" @change="calculateRateE()"
+                  placeholder="0" suffix="ETH" style="height: 60px;" /> -->
+                  <span>
+                    <label>
+                      <a-input :size="size" oninput="value=value.replace(/[^0-9.]/g,'')" v-model:value="ethLimitedAmount"
+                        placeholder="0" style="width: 70%; height: 40px;" />
+                    </label>
+                    <label>
+                      <a-select :size="size" default-value="eth" style="width: 30%;" @select="handleChangeLimitedSrc">
+                        <a-select-option style="text-align: center;" :value="item.value" :disabled="item.disabled"
+                          v-for="item in optionSrc" :key="item.value">{{ item.label }}</a-select-option>
+                      </a-select>
+                    </label>
+                  </span>
+                </div>
               </div>
               <!-- <div style="line-height: 50px;" ref="exchangeRate">rate:?</div> -->
               <a-button type="primary" :loading="iconLoadingLimited" @click="submitLimitedSwap()"
@@ -224,13 +315,13 @@
             <a-drawer v-model:open="operateErc20Open" class="custom-class" root-class-name="root-class-name"
               :root-style="{ color: 'blue' }" style="color: rgb(24, 18, 18)" :title="tokenName" placement="right"
               @after-open-change="afterOpenChange">
-              <a-button type="primary" :loading="iconLoadingApproveErc20" @click="showErc20Approve()"
+              <!-- <a-button type="primary" :loading="iconLoadingApproveErc20" @click="showErc20Approve()"
                 style="width: 150px;height: 40px;border: 0;border-radius: 5px;margin: 20px 3px;">
                 <template #icon>
                   <PoweroffOutlined />
                 </template>
                 Approve
-              </a-button>
+              </a-button> -->
               <a-button type="primary" :loading="iconLoadingDepositErc20" @click="showErc20Deposit()"
                 style="width: 150px;height: 40px;border: 0;border-radius: 5px;margin: 20px 3px;">
                 <template #icon>
@@ -245,22 +336,29 @@
                 </template>
                 Withdraw
               </a-button>
-              <a-button type="dashed" :loading="iconLoadingWithdrawErc20" @click="showDeleteButton()"
+              <a-button type="dashed" @click="showDeleteButton()"
                 style="width: 150px;height: 40px;border: 0;border-radius: 5px;margin: 20px 3px;">
                 <template #icon>
                   <PoweroffOutlined />
                 </template>
                 ...
               </a-button>
-              <div v-show="showDeleteFlage">
-                <a-button type="primary" danger :loading="iconLoadingWithdrawErc20" @click="deleteToken(tokenName)"
+              <a-button v-show="showDeleteFlage" type="primary" danger @click="deleteToken(tokenName)"
                 style="width: 150px;height: 40px;border: 0;border-radius: 5px;margin: 20px 3px;">
                 <template #icon>
                   <PoweroffOutlined />
                 </template>
                 Delete Token
               </a-button>
-              </div>
+              <!-- <div v-show="showDeleteFlage">
+                <a-button type="primary" danger :loading="iconLoadingWithdrawErc20" @click="deleteToken(tokenName)"
+                  style="width: 150px;height: 40px;border: 0;border-radius: 5px;margin: 20px 3px;">
+                  <template #icon>
+                    <PoweroffOutlined />
+                  </template>
+                  Delete Token
+                </a-button>
+              </div> -->
             </a-drawer>
             <!--drawer of ERC20 adding-->
             <a-drawer v-model:open="addErc20Open" class="custom-class" root-class-name="root-class-name"
@@ -288,14 +386,26 @@
     <div class="rightbar">
       <div class="tabright">
         <div class="content">
-          <div style="margin: auto;width: 90%;margin-top: -60px;position: absolute;text-align: left;;">
-            <!--3个按钮-->
+          <div style="margin: auto;width: 90%;margin-top: -60px;position: absolute;text-align: left;">
+            <!--4个按钮-->
             <button :class="indexr == numberr ? 'btnr1' : 'btnr'" @click="tabright(indexr)"
               v-for="(itemr, indexr) in dataListRight" :key="indexr">{{ itemr.option }}
             </button>
           </div>
-          <!--3个div-->
-          <div id="contentRight1" v-show="numberr == 0">
+          <!--4个div-->
+          <div id="contentRight0" v-show="numberr == 0">
+            <span>
+              <span v-for="value in walletObj">
+                <a-button :class="value.address == walletAddress ? 'btnwallet1' : 'btnwallet'" type="text"
+                  @click="changeWallet(value)">
+                  <span>smart contract account</span><span>:&nbsp</span><span>{{ value.address }}</span>
+                </a-button>
+              </span>
+            </span>
+            <!-- @click="openNotifaction('success')" -->
+            <a-button type="primary" shape="circle" @click="addWallet()">+</a-button>
+          </div>
+          <div id="contentRight1" v-show="numberr == 1">
             <span ref="tokenList">
               <span v-for="value in object">
                 <a-button type="text" style="text-align: left; width: 100%; height: 100px; border-radius: 15px;"
@@ -307,7 +417,43 @@
             <!-- @click="openNotifaction('success')" -->
             <a-button type="primary" shape="circle" @click="showAddErc20Drawer()">+</a-button>
           </div>
-          <div id="contentRight2" v-show="numberr == 2" style="">
+          <div id="contentRight2" v-show="numberr == 2">
+            <span>
+              <a-list size="large" bordered :data-source="orderData"
+                style="top: 5%; width: 90%; margin-left: 5%;text-align: left; background: #feecf9;">
+                <template #renderItem="{ item }">
+                  <a-list-item>
+                    <span style="font-weight: 700;">order number:&nbsp</span>{{ item.orderNo }}
+                    <br />
+                    <span style="font-weight: 700;">order details:&nbsp</span>
+                    <br />
+                    <span>token in:&nbsp</span>{{ item.orderContent.tokenIn }}<span>&nbsp
+                      amount:&nbsp</span>{{ item.orderContent.tokenInAmount }}
+                    <br />
+                    <span>token out:&nbsp</span>{{ item.orderContent.tokenOut }}<span>&nbsp
+                      amount:&nbsp</span>{{ item.orderContent.tokenOutAmount }}
+                    <br />
+                    <span v-show="flagSpan == 0" style="font-weight: 700;">status: </span><span v-show="flagSpan == 0"
+                      style="color:red; font-weight: 700;">pending</span>
+                    <!-- <a-button  type="primary" style="height: 40px;width: 100px; margin-left: 30%;">Edit</a-button> -->
+                    <a-button v-show="flagSpan == 0" danger type="primary" shape="round"
+                      @click="cancelLimitedOrder(item.orderNo)" style="height: 30px;width: 80px; margin-left: 278px;">
+                      Cancel
+                    </a-button>
+
+                    <span v-show="flagSpan == 1" style="font-weight: 700;">status: </span><span v-show="flagSpan == 1"
+                      style="color:green; font-weight: 700;">complete</span>
+                    <!-- <a-button  type="primary" style="height: 40px;width: 100px; margin-left: 30%;">Edit</a-button> -->
+                    <a-button v-show="flagSpan == 1" danger type="disabled" shape="round"
+                      @click="cancelLimitedOrder(item.orderNo)" style="height: 30px;width: 80px; margin-left: 270px;">
+                      Cancel
+                    </a-button>
+                  </a-list-item>
+                </template>
+              </a-list>
+            </span>
+          </div>
+          <div id="contentRight3" v-show="numberr == 3" style="">
             <span>
               <a-list size="large" bordered :data-source="dataHistory"
                 style="top: 5%; width: 90%; margin-left: 5%;text-align: left;">
@@ -320,35 +466,13 @@
               </a-list>
             </span>
           </div>
-          <div id="contentRight3" v-show="numberr == 1">
-            <span>
-              <a-list size="large" bordered :data-source="orderData"
-                style="top: 5%; width: 90%; margin-left: 5%;text-align: left;">
-                <template #renderItem="{ item }">
-                  <a-list-item>
-                    <span style="font-weight: 700;">order number:&nbsp</span>{{item.orderNo}}
-                    <br/>
-                    <span style="font-weight: 700;">order content:&nbsp</span>
-                    <br/>
-                    <span>token in:&nbsp</span>{{item.orderContent.tokenIn}}<span>&nbsp amount:&nbsp</span>{{item.orderContent.tokenInAmount}}
-                    <br/>
-                    <span>token out:&nbsp</span>{{item.orderContent.tokenOut}}<span>&nbsp amount:&nbsp</span>{{item.orderContent.tokenOutAmount}}
-                    <!-- <a-button  type="primary" style="height: 40px;width: 100px; margin-left: 30%;">Edit</a-button> -->
-                    <a-button danger type="primary" shape="round"  @click="cancelLimitedOrder(item.orderNo)" style="height: 30px;width: 80px; margin-left: 45%;">
-                      Cancel
-                    </a-button>
-                  </a-list-item>
-                </template>
-              </a-list>
-            </span>
-          </div>
-          <div id="contentRight4" v-show="numberr == 3">
+          <div id="contentRight4" v-show="numberr == 4">
             <span>Coming soon!</span>
           </div>
         </div>
       </div>
     </div>
-    <div class="bottom">Designed by BlockModel</div>
+    <div class="bottom"></div><!--Designed by BlockModel-->
   </div>
 </template>
 
@@ -357,11 +481,11 @@
 .header {
   position: absolute;
   line-height: 50px;
-  top: 0px;
+  top: 3%; //0px;
   left: 0px;
   right: 0px;
-  color: rgb(11, 15, 18);
-  font-size: larger;
+  color: rgb(134, 50, 159);
+  font-size: 60px;
   // background-color: #2d3a4b;
 }
 
@@ -369,7 +493,7 @@
 .leftbar {
   position: absolute;
   width: 45%;
-  top: 60px;
+  top: 15%; //60px;
   /* 距离上面50像素 */
   left: 4.5%;
   bottom: 60px;
@@ -382,7 +506,7 @@
 .rightbar {
   position: absolute;
   width: 45%;
-  top: 60px;
+  top: 15%; //60px;
   /* left: 230px; */
   bottom: 60px;
   right: 4.5%;
@@ -453,9 +577,26 @@
     background-color: #8c55ec;
   }
 
+  .btnwallet {
+    text-align: left;
+    width: 100%;
+    height: 100px;
+    border-radius: 15px;
+  }
+
+  .btnwallet1 {
+    text-align: left;
+    width: 100%;
+    height: 100px;
+    border-radius: 15px;
+    background-color: #feecf9;
+  }
+
+
   #contentLeft1,
   #contentLeft2 {
-    background-color: rgb(245 246 252);
+    background: linear-gradient(#ffeef9, #91bee5);
+    ;
     height: 500px;
     font-size: 16px;
     line-height: 100px;
@@ -464,7 +605,8 @@
   }
 
   #contentLeft3 {
-    background-color: rgb(245 246 252);
+    background: linear-gradient(#ffeef9, #91bee5);
+    ;
     height: 500px;
     font-size: 16px;
     line-height: 40px;
@@ -472,11 +614,13 @@
     border-radius: 15px;
   }
 
+  #contentRight0,
   #contentRight1,
   #contentRight2,
   #contentRight3,
   #contentRight4 {
-    background-color: rgb(255 244 250);
+    background: linear-gradient(#cddfca, #f3d789);
+    ;
     height: 500px;
     font-size: 16px;
     line-height: 100px;
@@ -500,20 +644,25 @@ import { ref, createVNode } from 'vue';
 import { Modal, notification } from 'ant-design-vue';
 import VueMetamask from 'vue-metamask';
 import { ethers, utils, BigNumber } from 'ethers';
-
+import { ParticlesBg } from "particles-bg-vue";
 import Wallet from '../api/abis/Wallet.json';
 import UniswapRouter from "../api/abis/UniswapRouter.json";
 
 import {
   getWeb3Provider,
   initInstances,
-  getBalance,
+  getErc20Balance,
   depositETH,
   approve,
   depositERC20,
   withdrawETH,
   withdrawERC20,
-  createTypedData,
+  ethToErc20DataOperationWrapper,
+  erc20ToEthDataOperationWrapper,
+  ethToErc20LimitedDataOperationWrapper,
+  erc20ToEthLimitedDataOperationWrapper,
+  getAddress,
+  getEthBalance,
 } from "../api/contracts";
 
 const axios = require('axios');
@@ -541,11 +690,17 @@ let contractAddrMap = new Map();
 contractAddrMap.set("eth", "0xfFf9976782d46CC05630D1f6eBAb18b2324d6B14");
 contractAddrMap.set("uni", "0x1f9840a85d5aF5bf1D1762F925BDADdC4201F984");
 
-
+// default null
 let wrapObj = [
-  { token: "ETH", address: "0xfFf9976782d46CC05630D1f6eBAb18b2324d6B14", balance: 0 },
+  { token: "ETH", address: "0xCeCd6718a8Fd49c7fA2220d9b034C0f36a8DaA88", balance: 0 },
+  // { token: "WETH", address: "0xfFf9976782d46CC05630D1f6eBAb18b2324d6B14", balance: 0 },
   { token: "UNI", address: "0x1f9840a85d5aF5bf1D1762F925BDADdC4201F984", balance: 0 },
-  { token: "USDC", address: "0x1f9840a85d5aF5bf1D1762F925BDADdC4201F984", balance: 0 },
+  // { token: "USDC", address: "0x1f9840a85d5aF5bf1D1762F925BDADdC4201F984", balance: 0 },
+];
+
+// default null
+let walletAddr = [
+  // { address: "0xCeCd6718a8Fd49c7fA2220d9b034C0f36a8DaA88" }
 ];
 
 let tokenName = "ERC20";
@@ -554,9 +709,15 @@ export default {
   name: "tableft",
   components: {
     VueMetamask,
+    ParticlesBg,
   },
   data() {
     return {
+      flagSpan: 0,
+      changePositionFlag: 0,
+      changeLimitedPositionFlag: 0,
+      walletIndex: 0,
+      walletNum: 0,//default 0
       showDeleteFlage: ref(false),
       ethLimitedAmount: null,
       erc20LimitedAmount: null,
@@ -565,6 +726,7 @@ export default {
       addErc20Symbol: null,
       tokenName: tokenName,
       object: wrapObj,
+      walletObj: walletAddr,
       rateMap: rateMap,
       contractAddrMap: contractAddrMap,
       subKeySrc: "eth",
@@ -586,19 +748,18 @@ export default {
       authorization: null,
       buyAddress: null,
       amount: null,
-      // walletAddress: null,
       privateKey: null,
       gasFee: null,
       gasLimit: null,
-      slipPoint: null,
+      slipPoint: 100,
       slipPointfr: null,
       deadLine: null,
       minimumLiquidity: null,
       // wethAddress: "0xfFf9976782d46CC05630D1f6eBAb18b2324d6B14",
       // uniAddress: "0x1f9840a85d5aF5bf1D1762F925BDADdC4201F984",
       fee: 3000,
-      walletAddress: "0x90CaF385c36b19d9f2BB9B5098398b6844eff8eB",
-      routerAddress: "0x63A62CBFeBaADFE58CA7E876b6b72868C4aA7CB6",
+      walletAddress: "0xF3FF08EbF08AAa9705EBC67916548f970E2d5baB",//default null
+      routerAddress: "0x3bFA4769FB09eefC5a80d6E87c3B9C650f7Ae48E",
       // amountOutMinimum: 0,
       chainId: "11155111",
       ethBalance: null,
@@ -627,9 +788,10 @@ export default {
         // { option: 'Front Running' },
       ],
       dataListRight: [
+        { option: 'Wallet' },
         { option: 'Balance' },
         { option: 'Order List' },
-        { option: 'History' },
+        // { option: 'History' },
         // { option: 'Strategy' },
       ],
       dataHistory: [],
@@ -642,14 +804,91 @@ export default {
     }
   },
   methods: {
+    changeLimitedPosition() {
+      console.log("before change limited order PositionFlag: ", this.changeLimitedPositionFlag);
+      this.changeLimitedPositionFlag = this.changeLimitedPositionFlag == 0 ? 1 : 0;
+      console.log("after change limited order PositionFlag: ", this.changeLimitedPositionFlag);
+    },
+    changePosition() {
+      console.log("before change PositionFlag: ", this.changePositionFlag);
+      this.changePositionFlag = this.changePositionFlag == 0 ? 1 : 0;
+      console.log("after change PositionFlag: ", this.changePositionFlag);
+    },
+    addWallet() {
+      console.log("this function will add a wallet address!");
+      getAddress(this.user, this.walletNum, this.addWalletCallback);
+    },
+    addWalletCallback(value) {
+      console.log("receipt status:", value);
+      if (value) {
+        // notice: transaction success
+        this.openNotifaction("success", "Create Account Address successfully! Address: " + value);
+        this.walletObj.push({ address: value });
+        // default select first address
+        if (this.walletNum == 0) {
+          this.walletAddress = value;
+        }
+      } else {
+        this.openNotifaction("error", "Create Account Address Failed!");
+      }
+      // if (this.walletNum == 0) {
+      //     this.walletAddress = value;
+      //     let tmpObj = { token: "ETH", address: this.walletAddress, balance: 0 };
+      //     this.object.push(tmpObj);
+      //   }
+      this.walletNum = this.walletNum + 1;
+    },
+    changeWallet(value) {
+      this.walletAddress = value.address;
+      this.openNotifaction("success", "wallet address changed! addr: " + this.walletAddress);
+      this.object.forEach(element => {
+        if (element.token == "ETH") {
+          element.address = this.walletAddress;
+        }
+      })
+      console.log(this.object);
+      // update walletIndex
+      for (let index = 0; index < this.walletObj.length; index++) {
+        const element = this.walletObj[index];
+        if (element.address == this.walletAddress) {
+          this.walletIndex = index;
+          console.log("wallet index: ", this.walletIndex);
+        }
+      }
+      // update eth balance
+      getEthBalance(this.walletAddress).then((response) => {
+        if (response.status) {
+          this.object.forEach(element => {
+            if (element.token == "ETH") {
+              console.log("eth balance:" + String(response.balance));
+              element.balance = this.formateNumber(ethers.utils.formatEther(response.balance));
+            }
+          })
+        } else {
+          console.log("get ETH balance falied!");
+        }
+      });
+      // update  erc20 balance
+      for (let index = 1; index < this.object.length; index++) {
+        const element = this.object[index];
+        getErc20Balance(this.walletAddress, element.address).then((response) => {
+          if (response.status) {
+            console.log(element.token + " balance:" + String(response.balance));
+            this.object[index].balance = this.formateNumber(ethers.utils.formatEther(response.balance));
+          } else {
+            console.log("get " + element.token + " balance falied!");
+          }
+        });
+      }
+    },
     deleteToken(value) {
       for (let index = 0; index < this.object.length; index++) {
         const element = this.object[index];
         if (element.token == value) {
-          this.object.splice(index,1);
+          this.object.splice(index, 1);
         }
       }
-      alert("delete token succeed!");
+      this.openNotifaction("success", "delete token successfully!");
     },
     showDeleteButton() {
       this.showDeleteFlage = this.showDeleteFlage == false ? true : false;
@@ -658,10 +897,10 @@ export default {
       for (let index = 0; index < this.orderData.length; index++) {
         const element = this.orderData[index];
         if (element.orderNo == orderNo) {
-          this.orderData.splice(index,1);
+          this.orderData.splice(index, 1);
         }
       }
-      alert("delete succeed!");
+      this.openNotifaction("success", "cancel successfully!");
     },
     openNotifaction(type, content) {
       notification[type]({
@@ -736,7 +975,7 @@ export default {
     },
     submitLimitedSwap() {
       if (this.user == null) {
-        alert("Please connect wallet.");
+        this.openNotifaction("info", "Please connect wallet.");
         return;
       }
       if (this.ethLimitedAmount == undefined || this.erc20LimitedAmount == undefined) {
@@ -755,80 +994,155 @@ export default {
       }
       // loading icon
       this.iconLoadingLimited = true;
+      let amountOutMinimum = "";
       // get metamask signature
-      createTypedData(this.contractAddrMap.get(this.subKeyLimitedSrc), this.contractAddrMap.get(this.subKeyLimitedDes), this.fee, this.routerAddress, this.ethLimitedAmount, this.erc20LimitedAmount, this.chainId).then((res) => {
-        console.log("response:", res);
-        if (res == undefined) {
-          this.iconLoading = false;
-          return;
-        }
-        // call exactInputSingle in relayer
-        let obj = {
-          r: res.r,
-          s: res.s,
-          salt: res.value.salt,
-          tx_value: {
-            amount_in: String(res.value.amountIn),
-            amount_out_minimum: String(res.value.amountOutMinimum),
-            fee: res.value.fee,
-            recipient: res.value.recipient,
-            token_in: res.value.tokenIn,
-            token_out: res.value.tokenOut,
-            sqrtPriceLimitX96: res.value.sqrtPriceLimitX96
-          },
-          user: this.user,
-          v: res.v,
-          flag: this.PriTxChecked
-        };
-        console.log("limited order obj string:", JSON.stringify(obj));
-        let timeStamp = new Date().getTime();
-        console.log("current timestamp: ", timeStamp);
-        let limitedOrderTmpObj = {orderNo: timeStamp, orderContent: { tokenIn: this.subKeyLimitedSrc, tokenOut: this.subKeyLimitedDes, tokenInAmount: this.ethLimitedAmount, tokenOutAmount: this.erc20LimitedAmount }};
-        this.orderData.push(limitedOrderTmpObj);
-        // axios.post('/api/v1/instant_swap', {
-        //   r: res.r,
-        //   s: res.s,
-        //   salt: res.value.salt,
-        //   tx_value: {
-        //     amount_in: String(res.value.amountIn),
-        //     amount_out_minimum: String(res.value.amountOutMinimum),
-        //     fee: res.value.fee,
-        //     recipient: res.value.recipient,
-        //     token_in: res.value.tokenIn,
-        //     token_out: res.value.tokenOut,
-        //     sqrtPriceLimitX96: res.value.sqrtPriceLimitX96
-        //   },
-        //   user: this.user,
-        //   v: res.v,
-        //   flag: this.PriTxChecked
-        // })
-        //   .then(function (response) {
-        //     console.log(response);
-        //     if (response.data.code == 1000) {
-        //       console.log("swap success!");
-        //     }
-        //   })
-        //   .catch(function (error) {
-        //     console.log(error);
-        //   });
-      });
+      if (this.changeLimitedPositionFlag == 0) {
+        ethToErc20LimitedDataOperationWrapper(this.user, this.walletAddress, this.walletIndex, this.contractAddrMap.get(this.subKeyLimitedSrc), this.contractAddrMap.get(this.subKeyLimitedDes), this.fee, this.routerAddress, this.ethLimitedAmount, this.erc20LimitedAmount, this.chainId).then(res => {
+          if (res != undefined) {
+            console.log("userOperation: ", res);
+            let timeStamp = new Date().getTime();
+            console.log("current timestamp: ", timeStamp);
+            let limitedOrderTmpObj = { orderNo: timeStamp, orderContent: { tokenIn: this.subKeyLimitedSrc, tokenOut: this.subKeyLimitedDes, tokenInAmount: this.ethLimitedAmount, tokenOutAmount: this.erc20LimitedAmount } };
+            this.orderData.push(limitedOrderTmpObj);
+          }
+          this.iconLoadingLimited = false;
+        });
+      }
+      if (this.changeLimitedPositionFlag == 1) {
+        amountOutMinimum = String(this.ethLimitedAmount * (1 - this.slipPoint / 100)).substring(0, 8);
+        erc20ToEthLimitedDataOperationWrapper(this.user, this.walletAddress, this.walletIndex, this.contractAddrMap.get(this.subKeyLimitedDes), this.contractAddrMap.get(this.subKeyLimitedSrc), this.fee, this.routerAddress, this.erc20LimitedAmount, amountOutMinimum, this.chainId).then(res => {
+          if (res != undefined) {
+            console.log("userOperation: ", res);
+            let timeStamp = new Date().getTime();
+            console.log("current timestamp: ", timeStamp);
+            let limitedOrderTmpObj = { orderNo: timeStamp, orderContent: { tokenIn: this.subKeyLimitedDes, tokenOut: this.subKeyLimitedDes, tokenInAmount: this.erc20LimitedAmount, tokenOutAmount: this.ethLimitedAmount } };
+            this.orderData.push(limitedOrderTmpObj);
+            
+            let obj = {
+              beneficiary_addr: this.user,
+              user_op: {
+                call_data: res.callData,
+                call_gas_limit: String(res.callGasLimit),
+                init_code: res.initCode,
+                max_fee_per_gas: String(res.maxFeePerGas),
+                max_priority_fee_per_gas: String(res.maxPriorityFeePerGas),
+                nonce: String(res.nonce),
+                paymaster_and_data: res.paymasterAndData,
+                pre_verification_gas: String(res.preVerificationGas),
+                sender: res.sender,
+                signature: res.signature,
+                verification_gas_limit: String(res.verificationGasLimit)
+              }
+            };
+            console.log("obj string:", JSON.stringify(obj));
+            axios.post('/api/v1/handle_op', {
+              beneficiary_addr: this.user,
+              user_op: {
+                call_data: res.callData,
+                call_gas_limit: String(res.callGasLimit),
+                init_code: res.initCode,
+                max_fee_per_gas: String(res.maxFeePerGas),
+                max_priority_fee_per_gas: String(res.maxPriorityFeePerGas),
+                nonce: String(res.nonce),
+                paymaster_and_data: res.paymasterAndData,
+                pre_verification_gas: String(res.preVerificationGas),
+                sender: res.sender,
+                signature: res.signature,
+                verification_gas_limit: String(res.verificationGasLimit)
+              }
+            })
+              .then(response => {
+                console.log(response);
+                if (response.data.code == 1000) {
+                  // this.openNotifaction("success", "Swap successfully! Transaction hash: " + response.data.data);
+                  console.log("swap successfully!");
 
-      setTimeout(() => {
-        // alert(this.iconLoading);
-        this.iconLoadingLimited = false;
-      }, 1000);
+                  setTimeout(() => {
+                  // update eth balance
+                  getEthBalance(this.walletAddress).then((response) => {
+                    if (response.status) {
+                      this.object.forEach(element => {
+                        if (element.token == "ETH") {
+                          console.log("eth balance:" + String(response.balance));
+                          element.balance = this.formateNumber(ethers.utils.formatEther(response.balance));
+                        }
+                      })
+                    } else {
+                      console.log("get ETH balance falied!");
+                    }
+                  });
+                  // update  erc20 balance
+                  for (let index = 1; index < this.object.length; index++) {
+                    const element = this.object[index];
+                    getErc20Balance(this.walletAddress, element.address).then((response) => {
+                      if (response.status) {
+                        console.log(element.token + " balance:" + String(response.balance));
+                        this.object[index].balance = this.formateNumber(ethers.utils.formatEther(response.balance));
+                      } else {
+                        console.log("get " + element.token + " balance falied!");
+                      }
+                    });
+                  }
+                  this.openNotifaction("success", "Swap successfully! Transaction hash: " + response.data.data);
+                  this.iconLoadingLimited = false;
+                  this.flagSpan = 1;
+                }, 15000);
+
+                  // setTimeout(() => {
+                  //   // alert(this.iconLoading);
+                  //   this.flagSpan = 1;
+                  // }, 1000);
+                }
+                if (response.data.code == 1003) {
+                  this.openNotifaction("info", "Swap error! error: " + response.data.data);
+                  console.log("swap error!");
+                  this.iconLoadingLimited = false;
+                }
+              })
+              .catch(error => {
+                console.log(error);
+                this.iconLoadingLimited = false;
+              });
+          }
+        });
+      }
+
+      // update eth balance
+      getEthBalance(this.walletAddress).then((response) => {
+        if (response.status) {
+          this.object.forEach(element => {
+            if (element.token == "ETH") {
+              console.log("eth balance:" + String(response.balance));
+              element.balance = this.formateNumber(ethers.utils.formatEther(response.balance));
+            }
+          })
+        } else {
+          console.log("get ETH balance falied!");
+        }
+      });
+      // update  erc20 balance
+      for (let index = 1; index < this.object.length; index++) {
+        const element = this.object[index];
+        getErc20Balance(this.walletAddress, element.address).then((response) => {
+          if (response.status) {
+            console.log(element.token + " balance:" + String(response.balance));
+            this.object[index].balance = this.formateNumber(ethers.utils.formatEther(response.balance));
+          } else {
+            console.log("get " + element.token + " balance falied!");
+          }
+        });
+      }
+
     },
     submitSwap() {
       if (this.user == null) {
-        alert("Please connect wallet.");
+        this.openNotifaction("info", "Please connect wallet.");
         return;
       }
       if (this.ethAmount == undefined || this.erc20Amount == undefined) {
         return;
       }
-      let amountOutMinimum = String(this.erc20Amount * (1 - this.slipPoint / 100)).substring(0, 8);
-      console.log("ethAmount", this.ethAmount);
-      console.log("amountOutMinimum", amountOutMinimum);
+
       if (!this.contractAddrMap.has(this.subKeySrc)) {
         console.log("Invaild src contract address");
         return;
@@ -839,66 +1153,206 @@ export default {
       }
       // loading icon
       this.iconLoading = true;
-      createTypedData(this.contractAddrMap.get(this.subKeySrc), this.contractAddrMap.get(this.subKeyDes), this.fee, this.routerAddress, this.ethAmount, amountOutMinimum, this.chainId).then((res) => {
-        console.log("response:", res);
-        if (res == undefined) {
-          this.iconLoading = false;
-          return;
-        }
-        // call exactInputSingle in relayer
-        let obj = {
-          r: res.r,
-          s: res.s,
-          salt: res.value.salt,
-          tx_value: {
-            amount_in: String(res.value.amountIn),
-            amount_out_minimum: String(res.value.amountOutMinimum),
-            fee: res.value.fee,
-            recipient: res.value.recipient,
-            token_in: res.value.tokenIn,
-            token_out: res.value.tokenOut,
-            sqrtPriceLimitX96: res.value.sqrtPriceLimitX96
-          },
-          user: this.user,
-          v: res.v,
-          flag: this.PriTxChecked
-        };
-        console.log("obj string:", JSON.stringify(obj));
-        axios.post('/api/v1/instant_swap', {
-          r: res.r,
-          s: res.s,
-          salt: res.value.salt,
-          tx_value: {
-            amount_in: String(res.value.amountIn),
-            amount_out_minimum: String(res.value.amountOutMinimum),
-            fee: res.value.fee,
-            recipient: res.value.recipient,
-            token_in: res.value.tokenIn,
-            token_out: res.value.tokenOut,
-            sqrtPriceLimitX96: res.value.sqrtPriceLimitX96
-          },
-          user: this.user,
-          v: res.v,
-          flag: this.PriTxChecked
-        })
-          .then(function (response) {
-            console.log(response);
-            if (response.data.code == 1000) {
-              console.log("swap success!");
+      let amountOutMinimum = "";
+      if (this.changePositionFlag == 0) {
+        console.log("we will swap eth to erc20!");
+        amountOutMinimum = String(this.erc20Amount * (1 - this.slipPoint / 100)).substring(0, 8);
+        console.log("ethAmount", this.ethAmount);
+        console.log("erc20Amount", this.erc20Amount);
+        console.log("amountOutMinimum", amountOutMinimum);
+        ethToErc20DataOperationWrapper(this.user, this.walletAddress, this.walletIndex, this.contractAddrMap.get(this.subKeySrc), this.contractAddrMap.get(this.subKeyDes), this.fee, this.routerAddress, this.ethAmount, amountOutMinimum, this.chainId, this.submitSwapCallback).then(res => {
+          // console.log("222222:",res);  
+          if (res == undefined) {
+            this.iconLoading = false;
+          }
+          // call exactInputSingle in relayer
+          let obj = {
+            beneficiary_addr: this.user,
+            user_op: {
+              call_data: res.callData,
+              call_gas_limit: String(res.callGasLimit),
+              init_code: res.initCode,
+              max_fee_per_gas: String(res.maxFeePerGas),
+              max_priority_fee_per_gas: String(res.maxPriorityFeePerGas),
+              nonce: String(res.nonce),
+              paymaster_and_data: res.paymasterAndData,
+              pre_verification_gas: String(res.preVerificationGas),
+              sender: res.sender,
+              signature: res.signature,
+              verification_gas_limit: String(res.verificationGasLimit)
+            }
+          };
+          console.log("obj string:", JSON.stringify(obj));
+          axios.post('/api/v1/handle_op', {
+            beneficiary_addr: this.user,
+            user_op: {
+              call_data: res.callData,
+              call_gas_limit: String(res.callGasLimit),
+              init_code: res.initCode,
+              max_fee_per_gas: String(res.maxFeePerGas),
+              max_priority_fee_per_gas: String(res.maxPriorityFeePerGas),
+              nonce: String(res.nonce),
+              paymaster_and_data: res.paymasterAndData,
+              pre_verification_gas: String(res.preVerificationGas),
+              sender: res.sender,
+              signature: res.signature,
+              verification_gas_limit: String(res.verificationGasLimit)
             }
           })
-          .catch(function (error) {
-            console.log(error);
+            .then(response => {
+              console.log(response);
+              if (response.data.code == 1000) {
+                // this.openNotifaction("success", "Swap successfully! Transaction hash: " + response.data.data);
+                console.log("swap successfully!");
+
+
+                setTimeout(() => {
+                  // update eth balance
+                  getEthBalance(this.walletAddress).then((response) => {
+                    if (response.status) {
+                      this.object.forEach(element => {
+                        if (element.token == "ETH") {
+                          console.log("eth balance:" + String(response.balance));
+                          element.balance = this.formateNumber(ethers.utils.formatEther(response.balance));
+                        }
+                      })
+                    } else {
+                      console.log("get ETH balance falied!");
+                    }
+                  });
+                  // update  erc20 balance
+                  for (let index = 1; index < this.object.length; index++) {
+                    const element = this.object[index];
+                    getErc20Balance(this.walletAddress, element.address).then((response) => {
+                      if (response.status) {
+                        console.log(element.token + " balance:" + String(response.balance));
+                        this.object[index].balance = this.formateNumber(ethers.utils.formatEther(response.balance));
+                      } else {
+                        console.log("get " + element.token + " balance falied!");
+                      }
+                    });
+                  }
+                  this.openNotifaction("success", "Swap successfully! Transaction hash: " + response.data.data);
+                  this.iconLoading = false;
+                }, 15000);
+              }
+            })
+            .catch(error => {
+              console.log(error);
+              this.iconLoading = false;
+            });
+        });
+      };
+      if (this.changePositionFlag == 1) {
+        console.log("we will swap erc20 to eth!");
+        amountOutMinimum = String(this.ethAmount * (1 - this.slipPoint / 100)).substring(0, 8);
+        console.log("ethAmount", this.ethAmount);
+        console.log("erc20Amount", this.erc20Amount);
+        console.log("amountOutMinimum", amountOutMinimum);
+        erc20ToEthDataOperationWrapper(this.user, this.walletAddress, this.walletIndex, this.contractAddrMap.get(this.subKeyDes), this.contractAddrMap.get(this.subKeySrc), this.fee, this.routerAddress, this.erc20Amount, amountOutMinimum, this.chainId, this.submitSwapCallback).then(res => {
+          if (res == undefined) {
+            this.iconLoading = false;
+          }
+        });
+      }
+
+      return;
+      // .then((res) => {
+      //   console.log("response:", res);
+      //   if (res == undefined) {
+      //     this.iconLoading = false;
+      //     return;
+      //   }
+      // call exactInputSingle in relayer
+      // let obj = {
+      //   r: res.r,
+      //   s: res.s,
+      //   salt: res.value.salt,
+      //   tx_value: {
+      //     amount_in: String(res.value.amountIn),
+      //     amount_out_minimum: String(res.value.amountOutMinimum),
+      //     fee: res.value.fee,
+      //     recipient: res.value.recipient,
+      //     token_in: res.value.tokenIn,
+      //     token_out: res.value.tokenOut,
+      //     sqrtPriceLimitX96: res.value.sqrtPriceLimitX96
+      //   },
+      //   user: this.user,
+      //   v: res.v,
+      //   flag: this.PriTxChecked
+      // };
+      // console.log("obj string:", JSON.stringify(obj));
+      // axios.post('/api/v1/instant_swap', {
+      //   r: res.r,
+      //   s: res.s,
+      //   salt: res.value.salt,
+      //   tx_value: {
+      //     amount_in: String(res.value.amountIn),
+      //     amount_out_minimum: String(res.value.amountOutMinimum),
+      //     fee: res.value.fee,
+      //     recipient: res.value.recipient,
+      //     token_in: res.value.tokenIn,
+      //     token_out: res.value.tokenOut,
+      //     sqrtPriceLimitX96: res.value.sqrtPriceLimitX96
+      //   },
+      //   user: this.user,
+      //   v: res.v,
+      //   flag: this.PriTxChecked
+      // })
+      //   .then(function (response) {
+      //     console.log(response);
+      //     if (response.data.code == 1000) {
+      //       console.log("swap success!");
+      //     }
+      //   })
+      //   .catch(function (error) {
+      //     console.log(error);
+      //   });
+      // });
+      // setTimeout(() => {
+      //   // alert(this.iconLoading);
+      //   this.iconLoading = false;
+      // }, 1000);
+    },
+    submitSwapCallback(value) {
+      console.log("receipt status:", value);
+      if (value) {
+        // notice: transaction success
+        this.openNotifaction("success", "Swap successfully! Transaction hash: " + value.transactionHash);
+        // update eth balance
+        getEthBalance(this.walletAddress).then((response) => {
+          if (response.status) {
+            this.object.forEach(element => {
+              if (element.token == "ETH") {
+                console.log("eth balance:" + String(response.balance));
+                element.balance = this.formateNumber(ethers.utils.formatEther(response.balance));
+              }
+            })
+          } else {
+            console.log("get ETH balance falied!");
+          }
+        });
+        // update  erc20 balance
+        for (let index = 1; index < this.object.length; index++) {
+          const element = this.object[index];
+          getErc20Balance(this.walletAddress, element.address).then((response) => {
+            if (response.status) {
+              console.log(element.token + " balance:" + String(response.balance));
+              this.object[index].balance = this.formateNumber(ethers.utils.formatEther(response.balance));
+            } else {
+              console.log("get " + element.token + " balance falied!");
+            }
           });
-      });
-      setTimeout(() => {
-        // alert(this.iconLoading);
-        this.iconLoading = false;
-      }, 1000);
+        }
+      } else {
+        this.openNotifaction("error", "Swap Failed!");
+      }
+      // update loading icon
+      this.iconLoading = false;
     },
     submitFrontRun() {
       if (this.user == null) {
-        alert("Please connect wallet.");
+        this.openNotifaction("info", "Please connect wallet.");
         return;
       }
       this.iconLoadingSend = true;
@@ -944,9 +1398,9 @@ export default {
       if (this.depositEth > 0) {
         this.iconLoadingDepositEth = true;
         // deposit ETH
-        depositETH(this.user, this.depositEth, this.hideEthDepositCallback);
+        depositETH(this.walletAddress, this.depositEth, this.hideEthDepositCallback);
         this.depositEth = null;
-        
+
         this.openNotifaction("info", "Transaction pending.");
       }
       this.depositEthOpen = false;
@@ -955,19 +1409,31 @@ export default {
       console.log("receipt status:", value);
       if (value) {
         // notice: transaction success
-        this.openNotifaction("success", "Deposit Succeed! Transaction hash: " + value.transactionHash);
+        this.openNotifaction("success", "Deposit successfully! Transaction hash: " + value.transactionHash);
         // update  eth balance
-        for (let index = 0; index < this.object.length; index++) {
-          const element = this.object[index];
-          getBalance(this.user, element.address).then((response) => {
-            if (response.status) {
-              console.log(element.token + " balance:" + response.balance.toNumber());
-              this.object[index].balance = this.formateNumber(response.balance.toNumber() / 1000000000000000000);
-            } else {
-              console.log("get " + element.token + " balance falied!");
-            }
-          });
-        }
+        getEthBalance(this.walletAddress).then((response) => {
+          if (response.status) {
+            // console.log(element.token + " balance:" + response.balance.toNumber());
+            this.object.forEach(element => {
+              if (element.token == "ETH") {
+                element.balance = this.formateNumber(ethers.utils.formatEther(response.balance));
+              }
+            })
+          } else {
+            console.log("get ETH balance falied!");
+          }
+        });
+        // for (let index = 0; index < this.object.length; index++) {
+        //   const element = this.object[index];
+        //   getBalance(this.user, element.address).then((response) => {
+        //     if (response.status) {
+        //       console.log(element.token + " balance:" + response.balance.toNumber());
+        //       this.object[index].balance = this.formateNumber(response.balance.toNumber() / 1000000000000000000);
+        //     } else {
+        //       console.log("get " + element.token + " balance falied!");
+        //     }
+        //   });
+        // }
       } else {
         this.openNotifaction("error", "Deposit Failed!");
       }
@@ -995,12 +1461,12 @@ export default {
         if (flag != null) {
           console.log("match success! index is:", flag);
           console.log("token address: ", this.object[flag].address);
-          depositERC20(this.user, this.object[flag].address, this.depositErc20, this.hideErc20DepositCallback);
+          depositERC20(this.walletAddress, this.object[flag].address, this.depositErc20, this.hideErc20DepositCallback);
         } else {
           this.notification("error", "Invaild token address!");
         }
         this.depositErc20 = null;
-        
+
         this.openNotifaction("info", "Transaction pending.");
       }
       this.depositErc20Open = false;
@@ -1009,14 +1475,14 @@ export default {
       console.log("receipt status:", value);
       if (value) {
         // notice: transaction success
-        this.openNotifaction("success", "Deposit Succeed! Transaction hash: " + value.transactionHash);
+        this.openNotifaction("success", "Deposit successfully! Transaction hash: " + value.transactionHash);
         // update  erc20 balance
-        for (let index = 0; index < this.object.length; index++) {
+        for (let index = 1; index < this.object.length; index++) {
           const element = this.object[index];
-          getBalance(this.user, element.address).then((response) => {
+          getErc20Balance(this.walletAddress, element.address).then((response) => {
             if (response.status) {
-              console.log(element.token + " balance:" + response.balance.toNumber());
-              this.object[index].balance = this.formateNumber(response.balance.toNumber() / 1000000000000000000);
+              console.log(element.token + " balance:" + String(response.balance));
+              this.object[index].balance = this.formateNumber(ethers.utils.formatEther(response.balance));
             } else {
               console.log("get " + element.token + " balance falied!");
             }
@@ -1038,9 +1504,9 @@ export default {
       if (this.withdrawEth > 0) {
         this.iconLoadingWithdrawEth = true;
         // withdraw ETH
-        withdrawETH(this.user, this.withdrawEth, this.hideEthWithdrawCallback);
+        withdrawETH(this.user, this.walletAddress, this.walletIndex, this.object[0].address, this.withdrawEth, this.chainId, this.hideEthWithdrawCallback);
         this.withdrawEth = null;
-        
+
         this.openNotifaction("info", "Transaction pending.");
       }
       this.withdrawEthOpen = false;
@@ -1049,19 +1515,20 @@ export default {
       console.log("receipt status:", value);
       if (value) {
         // notice: transaction success
-        this.openNotifaction("success", "Withdraw Succeed! Transaction hash: " + value.transactionHash);
+        this.openNotifaction("success", "Withdraw successfully! Transaction hash: " + value.transactionHash);
         // update  eth balance
-        for (let index = 0; index < this.object.length; index++) {
-          const element = this.object[index];
-          getBalance(this.user, element.address).then((response) => {
-            if (response.status) {
-              console.log(element.token + " balance:" + response.balance.toNumber());
-              this.object[index].balance = this.formateNumber(response.balance.toNumber() / 1000000000000000000);
-            } else {
-              console.log("get " + element.token + " balance falied!");
-            }
-          });
-        }
+        getEthBalance(this.walletAddress).then((response) => {
+          if (response.status) {
+            this.object.forEach(element => {
+              if (element.token == "ETH") {
+                console.log("eth balance:" + String(response.balance));
+                element.balance = this.formateNumber(ethers.utils.formatEther(response.balance));
+              }
+            })
+          } else {
+            console.log("get ETH balance falied!");
+          }
+        });
       } else {
         this.openNotifaction("error", "Withdraw Failed!");
       }
@@ -1088,12 +1555,12 @@ export default {
         if (flag != null) {
           console.log("match success! index is:", flag);
           console.log("token address: ", this.object[flag].address);
-          withdrawERC20(this.user, this.object[flag].address, this.withdrawErc20, this.hideErc20WithdrawCallback);
+          withdrawERC20(this.user, this.walletAddress, this.walletIndex, this.object[flag].address, this.withdrawErc20, this.chainId, this.hideErc20WithdrawCallback);
         } else {
           this.notification("error", "Invaild token address!");
         }
         this.withdrawErc20 = null;
-        
+
         this.openNotifaction("info", "Transaction pending.");
       }
       this.withdrawErc20Open = false;
@@ -1102,14 +1569,14 @@ export default {
       console.log("receipt status:", value);
       if (value) {
         // notice: transaction success
-        this.openNotifaction("success", "Withdraw erc20 Succeed! Transaction hash: " + value.transactionHash);
+        this.openNotifaction("success", "Withdraw erc20 successfully! Transaction hash: " + value.transactionHash);
         // update  erc20 balance
-        for (let index = 0; index < this.object.length; index++) {
+        for (let index = 1; index < this.object.length; index++) {
           const element = this.object[index];
-          getBalance(this.user, element.address).then((response) => {
+          getErc20Balance(this.walletAddress, element.address).then((response) => {
             if (response.status) {
-              console.log(element.token + " balance:" + response.balance.toNumber());
-              this.object[index].balance = this.formateNumber(response.balance.toNumber() / 1000000000000000000);
+              console.log(element.token + " balance:" + String(response.balance));
+              this.object[index].balance = this.formateNumber(ethers.utils.formatEther(response.balance));
             } else {
               console.log("get " + element.token + " balance falied!");
             }
@@ -1146,7 +1613,7 @@ export default {
           this.notification("error", "Invaild token address!");
         }
         this.approveErc20 = null;
-        
+
         this.openNotifaction("info", "Transaction pending.");
       }
       this.approveErc20Open = false;
@@ -1155,7 +1622,7 @@ export default {
       console.log("receipt status:", value);
       if (value) {
         // notice: transaction success
-        this.openNotifaction("success", "Approve Succeed! Transaction hash: " + value.transactionHash);
+        this.openNotifaction("success", "Approve successfully! Transaction hash: " + value.transactionHash);
       } else {
         this.openNotifaction("error", "Approve Failed!");
       }
@@ -1197,16 +1664,32 @@ export default {
             console.log("Init failed");;
           }
         });
-        for (let index = 0; index < this.object.length; index++) {
-          const element = this.object[index];
-          getBalance(this.user, element.address).then((response) => {
+        // update  eth balance
+        if (this.walletAddress != null) {
+          getEthBalance(this.walletAddress).then((response) => {
             if (response.status) {
-              console.log(element.token + " balance:" + response.balance.toNumber());
-              this.object[index].balance = this.formateNumber(response.balance.toNumber() / 1000000000000000000);
+              // console.log(element.token + " balance:" + response.balance.toNumber());
+              this.object.forEach(element => {
+                if (element.token == "ETH") {
+                  element.balance = this.formateNumber(ethers.utils.formatEther(response.balance));
+                }
+              })
             } else {
-              console.log("get " + element.token + " balance falied!");
+              console.log("get ETH balance falied!");
             }
           });
+          // update erc20 balance
+          for (let index = 1; index < this.object.length; index++) {
+            const element = this.object[index];
+            getErc20Balance(this.walletAddress, element.address).then((response) => {
+              if (response.status) {
+                console.log(element.token + " balance:" + String(response.balance));
+                this.object[index].balance = this.formateNumber(ethers.utils.formatEther(response.balance));
+              } else {
+                console.log("get " + element.token + " balance falied!");
+              }
+            });
+          }
         }
       }
       // console.log('data:', this.user);
